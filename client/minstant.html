@@ -1,0 +1,159 @@
+<head>
+  <title>Minstant!</title>
+</head>
+
+<body>
+</body>
+
+<!-- this is the main template used by iron:router to build the page -->
+<template name="ApplicationLayout">
+	{{> yield "header"}}
+	
+	<div class="ui container main">
+	{{> yield "main"}}
+	</div>
+</template>
+
+<!-- top level template for the nav bar -->
+<template name="navbar">
+<div class="ui inverted top fixed menu">
+    <div class="ui container">
+      <a href="/" class="header item">
+        <h2>Minstant!</h2>
+      </a>
+       <div class="right menu">
+      	{{> loginButtons}}
+      </div>
+    </div>
+  </div>
+  <div class="ui inverted bottom menu">
+  </div>
+</template>
+
+<!-- Top level template for the lobby page -->
+<template name="lobby_page">
+	{{> available_user_list}}
+	{{> loginModal}}
+</template>
+
+<!-- display a list of users -->
+<template name="available_user_list">
+	<h2>Choose someone to chat with:</h2>
+	<div class="ui special cards">
+	{{#each users}}
+	{{> available_user}}
+	{{/each}}
+	</div>
+</template>
+
+<!-- display an individual user -->
+<template name="available_user">
+
+
+	{{#if isMyUser _id}} 
+  <div class="card">
+    <div class="image">
+      <img src="/{{profile.avatar}}">
+    </div>
+    <div class="content">
+      <div class="header">{{getUsername _id}} (YOU)</div>
+    </div>
+  </div>
+  {{else}}
+  <div class="card">
+    <div class="blurring dimmable image">
+      <div class="ui inverted dimmer">
+        <div class="content">
+          <div class="center">
+            <a href="/chat/{{_id}}"><div class="ui primary button">Chat</div></a>
+          </div>
+        </div>
+      </div>
+      <img src="/{{profile.avatar}}">
+    </div>
+    <div class="content">
+      <a class="header" href="/chat/{{_id}}">{{getUsername _id}}</a>
+    </div>
+  </div>
+  {{/if}}
+  <script>
+  	$('.special.cards .image').dimmer({
+        on: 'hover'
+      });
+  </script>
+
+	
+</template>
+
+
+<!-- Top level template for the chat page -->
+<template name="chat_page">
+
+<div class="ui comments">
+	<div class="ui cards">
+		<div class="card">
+		    <div class="content">
+		      <img class="mini ui image" src="/{{other_user.profile.avatar}}">
+		      <div class="right floated header">
+		        {{other_user.profile.username}}
+		      </div>
+		      <div class="description">
+		        Type in the box below to send a message
+		      </div>
+		    </div>
+		</div>
+	</div>  
+
+  <h3 class="ui dividing header"></h3>
+  	{{#each messages}}
+			{{> chat_message}}
+	{{/each}}
+	<br>
+  <form class="ui reply form js-send-chat">
+
+  	<div class="ui action fluid input">
+	  <input class="input" type="text" name="chat" placeholder="type a message here...">
+	  <button class="ui blue submit button" type="submit">Send</button>
+	</div>
+
+   <!--<div class="field">
+      <input class="input" type="text" name="chat" placeholder="type a message here...">
+    </div>
+    <div class="ui blue labeled submit icon button">
+      <i class="icon edit"></i> Send
+    </div>-->
+  </form>
+</div>
+</template>
+
+<!-- simple template that displays a message -->
+<template name="chat_message">
+
+<div class="comment">
+    <a class="avatar">
+      <img src="/{{getAvatar user}}">
+    </a>
+    <div class="content">
+      <a class="author">{{getUsername user}}</a>
+      <div class="metadata">
+        <span class="date">{{time}}</span>
+      </div>
+      <div class="text">
+        {{{parseEmoticons text}}}
+      </div>
+    </div>
+  </div>
+</template>
+
+
+<template name = "loginModal">
+	<div class="ui basic modal">
+	  <div class="header">Not Logged In</div>
+	  <div class="content">
+	    <p>You need to login or register before chatting with other users.</p>
+	  </div>
+	  <div class="actions">
+	    <div class="ui positive right inverted green basic button">Okay</div>
+	  </div>
+	</div>
+</template>

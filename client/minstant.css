@@ -1,0 +1,23 @@
+/* CSS declarations go here */
+
+.user_avatar{
+	min-height:100px;
+	text-align: center;
+
+}
+
+.avatar_img{
+	height:75px;
+}
+
+.ui.cards > .card, .ui.card{
+	width: 250px;
+}
+
+.main{
+	margin-top: 80px;
+}
+
+.meteoremoticon{
+	height: 1.2em;
+}
