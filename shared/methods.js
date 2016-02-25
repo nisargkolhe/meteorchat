@@ -1,7 +1,7 @@
 Meteor.methods({
 	updateChat:function(chatid,chat){
 		if(!this.userId){
-			//console.log("not logged in");
+			console.log("not logged in");
 			return false;
 		}
 		else{
@@ -11,7 +11,7 @@ Meteor.methods({
 				return true;
 			}
 			else{
-				//console.log("check fail");
+				console.log("check fail");
 				return false;
 			}
 		}

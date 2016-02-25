@@ -1,5 +1,5 @@
 <head>
-  <title>Minstant!</title>
+  <title>MeteorChat</title>
 </head>
 
 <body>
@@ -16,18 +16,39 @@
 
 <!-- top level template for the nav bar -->
 <template name="navbar">
-<div class="ui inverted top fixed menu">
+<div class="ui inverted top fixed icon menu">
     <div class="ui container">
       <a href="/" class="header item">
-        <h2>Minstant!</h2>
+        <h2>MeteorChat</h2>
       </a>
-       <div class="right menu">
+      <div class="ui dropdown item">
+        <div class="ui red circular label">22</div>
+        <div class="menu ui comments">
+          <div class="item comment">
+            <a class="avatar">
+              <img src="ava2.jpg">
+            </a>
+            <div class="content">
+              <a class="author">Stevie Feliciano</a>
+              <div class="metadata">
+                <div class="date">2 days ago</div>
+              </div>
+              <div class="text">
+                Hey guys, I hope this example comment is helping you read this documentation.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="right menu">
       	{{> loginButtons}}
       </div>
     </div>
   </div>
   <div class="ui inverted bottom menu">
   </div>
+
+  <script>$('.dropdown').dropdown();</script>
 </template>
 
 <!-- Top level template for the lobby page -->
@@ -39,16 +60,21 @@
 <!-- display a list of users -->
 <template name="available_user_list">
 	<h2>Choose someone to chat with:</h2>
-	<div class="ui special cards">
+	<div class = "ui grid">
+	<div class="doubling four column row">
 	{{#each users}}
 	{{> available_user}}
 	{{/each}}
 	</div>
+	</div>
+	
 </template>
 
 <!-- display an individual user -->
 <template name="available_user">
 
+<div class="column userCard">
+<div class="ui special cards">
 
 	{{#if isMyUser _id}} 
   <div class="card">
@@ -70,6 +96,7 @@
         </div>
       </div>
       <img src="/{{profile.avatar}}">
+      <div class="ui floating red label">12</div>
     </div>
     <div class="content">
       <a class="header" href="/chat/{{_id}}">{{getUsername _id}}</a>
@@ -81,8 +108,8 @@
         on: 'hover'
       });
   </script>
-
-	
+</div>
+	</div>
 </template>
 
 
@@ -140,6 +167,20 @@
       </div>
       <div class="text">
         {{{parseEmoticons text}}}
+      </div>
+      <div class="actions">
+      {{#if read}}
+        {{#unless checkUser user}}
+        <div>
+          <span class="fa-stack fa text-success">
+              <i class="fa fa-check fa-stack-1x" style="margin-left:4px"></i>
+              <i class="fa fa-check fa-inverse fa-stack-1x" style="margin-left:-3px;"></i>
+              <i class="fa fa-check  fa-stack-1x" style="margin-left:-4px"></i>
+          </span>
+          Read
+        </div>
+        {{/unless}}
+      {{/if}}  
       </div>
     </div>
   </div>
