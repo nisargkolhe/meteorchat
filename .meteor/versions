@@ -1,4 +1,6 @@
 accounts-base@1.2.2
+accounts-facebook@1.0.6
+accounts-oauth@1.1.8
 accounts-password@1.1.4
 autoupdate@1.2.4
 babel-compiler@5.8.24_1
@@ -26,6 +28,7 @@ ecmascript-runtime@0.2.6
 ejson@1.0.7
 email@1.0.8
 es5-shim@4.1.14
+facebook@1.2.2
 fastclick@1.0.7
 flemay:less-autoprefixer@1.2.0
 fortawesome:fontawesome@4.5.0
@@ -61,6 +64,8 @@ mongo-id@1.0.1
 nisargkolhe:accounts-ui-semantic-ui-select@1.2.2
 npm-bcrypt@0.7.8_2
 npm-mongo@1.4.39_1
+oauth@1.1.6
+oauth2@1.1.5
 observe-sequence@1.0.7
 ogourment:settings@0.1.4
 ordered-dict@1.0.4

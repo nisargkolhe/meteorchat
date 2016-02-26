@@ -44,8 +44,8 @@ img.emoji {
 }
 
 .emoji-wysiwyg-editor:empty:before {
-    content: attr(placeholder);
-    color: #9aa2ab;
+   /* content: attr(placeholder);
+    color: #9aa2ab;*/
 }
 
 .emoji-picker-container {
@@ -53,6 +53,7 @@ img.emoji {
 }
 
 .emoji-picker-icon {
+        margin: 3px 70px;
     position: absolute;
     right: 10px;
     top: 5px;
@@ -78,8 +79,8 @@ img.emoji {
 
 /* Emoji area */
 .emoji-wysiwyg-editor:empty:before {
-    content: attr(placeholder);
-    color: #9aa2ab;
+    /*content: attr(placeholder);
+    color: #9aa2ab;*/
 }
 
 .emoji-wysiwyg-editor:active:before,
@@ -88,6 +89,7 @@ img.emoji {
 }
 
 .emoji-wysiwyg-editor {
+    width: 100%;
     padding: 6px;
     padding-right: 35px;
     margin-bottom: 0px;

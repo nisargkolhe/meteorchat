@@ -768,8 +768,8 @@
       this.tether = new Tether({
         element: '[data-id="' + this.id + '"][data-type="menu"]',
         target: '[data-id="' + this.id + '"][data-type="picker"]',
-        attachment: 'left center',
-        targetAttachment: 'bottom left',
+        attachment: 'bottom right',
+  		targetAttachment: 'top left',
         offset: '0 12px',
         constraints: [
           {
