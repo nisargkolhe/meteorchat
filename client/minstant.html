@@ -21,6 +21,8 @@
       <a href="/" class="header item">
         <h2>MeteorChat</h2>
       </a>
+      <!--
+      Notification Layout
       <div class="ui dropdown item">
         <div class="ui red circular label">22</div>
         <div class="menu ui comments">
@@ -39,7 +41,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div>-->
       <div class="right menu">
       	{{> loginButtons}}
       </div>
@@ -96,7 +98,9 @@
         </div>
       </div>
       <img src="/{{profile.avatar}}">
-      <div class="ui floating red label">12</div>
+      {{#if getRead}}
+      <div class="ui floating circular red big label">{{getRead}}</div>
+      {{/if}}
     </div>
     <div class="content">
       <a class="header" href="/chat/{{_id}}">{{getUsername _id}}</a>
@@ -139,18 +143,28 @@
   <form class="ui reply form js-send-chat">
 
   	<div class="ui action fluid input">
-	  <input class="input" type="text" name="chat" placeholder="type a message here...">
+	  <input class="input" type="text" name="chat" data-emojiable="true" placeholder="type a message here...">
 	  <button class="ui blue submit button" type="submit">Send</button>
 	</div>
 
-   <!--<div class="field">
-      <input class="input" type="text" name="chat" placeholder="type a message here...">
-    </div>
-    <div class="ui blue labeled submit icon button">
-      <i class="icon edit"></i> Send
-    </div>-->
   </form>
+
+
 </div>
+
+ <script>
+    $(function() {
+      // Initializes and creates emoji set from sprite sheet
+      window.emojiPicker = new EmojiPicker({
+        emojiable_selector: '[data-emojiable=true]',
+        popupButtonClasses: 'fa fa-smile-o'
+      });
+      // Finds all elements with `emojiable_selector` and converts them to rich emoji input fields
+      // You may want to delay this step if you have dynamically created input fields that appear later in the loading process
+      // It can be called as many times as necessary; previously converted input fields will not be converted again
+      window.emojiPicker.discover();
+    });
+  </script>
 </template>
 
 <!-- simple template that displays a message -->
@@ -167,21 +181,19 @@
       </div>
       <div class="text">
         {{{parseEmoticons text}}}
+        {{#if read}}
+          {{#unless checkUser user}}
+          <div class="readCheck">
+            <span class="fa-stack fa text-success">
+                <i class="fa fa-check fa-stack-1x" style="margin-left:4px"></i>
+                <i class="fa fa-check fa-inverse fa-stack-1x" style="margin-left:-3px;"></i>
+                <i class="fa fa-check  fa-stack-1x" style="margin-left:-4px"></i>
+            </span>
+          </div>
+          {{/unless}}
+        {{/if}}  
       </div>
-      <div class="actions">
-      {{#if read}}
-        {{#unless checkUser user}}
-        <div>
-          <span class="fa-stack fa text-success">
-              <i class="fa fa-check fa-stack-1x" style="margin-left:4px"></i>
-              <i class="fa fa-check fa-inverse fa-stack-1x" style="margin-left:-3px;"></i>
-              <i class="fa fa-check  fa-stack-1x" style="margin-left:-4px"></i>
-          </span>
-          Read
-        </div>
-        {{/unless}}
-      {{/if}}  
-      </div>
+
     </div>
   </div>
 </template>
