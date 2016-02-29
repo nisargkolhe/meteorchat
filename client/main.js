@@ -132,6 +132,12 @@ Template.available_user.helpers({
                   ]};
       var chat = Chats.findOne(filter);
       var unread = 0;
+      if(!chat){
+        return false;
+      }
+      if(!chat.messages){
+        return false;
+      }
       for(message of chat.messages){
         if(message.read==false && message.user==otherUserId){
           unread++;

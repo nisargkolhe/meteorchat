@@ -1,5 +1,9 @@
 /* CSS declarations go here */
 
+body{
+	overflow: hidden;
+}
+
 .user_avatar{
 	min-height:100px;
 	text-align: center;
@@ -15,7 +19,8 @@
 }
 
 .main{
-	margin-top: 80px;
+	height: 90%;
+	overflow: scroll;
 }
 
 .meteoremoticon{
@@ -30,6 +35,11 @@
 	display: inline;
     float: right;
     color: grey;
+}
+
+.ui.comments{
+	height: 90%;
+	overflow: scroll;
 }
 
 [contenteditable="true"].single-line {

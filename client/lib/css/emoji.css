@@ -53,9 +53,9 @@ img.emoji {
 }
 
 .emoji-picker-icon {
-        margin: 3px 70px;
+        margin: 3px -25px;
     position: absolute;
-    right: 10px;
+    right: 100%;
     top: 5px;
     font-size: 20px;
     opacity: 0.7;
@@ -89,15 +89,17 @@ img.emoji {
 }
 
 .emoji-wysiwyg-editor {
+
     width: 100%;
     padding: 6px;
     padding-right: 35px;
+    padding-left: 30px;
     margin-bottom: 0px;
     min-height: 35px; /* 35 */
     height: 30px;
     max-height: 284px;
     overflow: auto;
-    line-height: 17px;
+    line-height: 20px;
     border: 1px solid #d2dbe3;
     border-radius: 2px;
     -webkit-box-shadow: none;
@@ -125,7 +127,10 @@ img.emoji {
 }
 
 .emoji-menu {
+
     position: absolute;
+        bottom: 0;
+    margin: 0px 0px 55px 14px;
     z-index: 999;
     width: 225px;
     overflow: hidden;

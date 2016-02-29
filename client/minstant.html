@@ -136,10 +136,13 @@
 	</div>  
 
   <h3 class="ui dividing header"></h3>
+  <div class="chatWindow">
   	{{#each messages}}
 			{{> chat_message}}
-	{{/each}}
+	   {{/each}}
+  </div>
 	<br>
+  </div>
   <form class="ui reply form js-send-chat">
 
   	<div class="ui action input" style="width:100%;">
@@ -150,7 +153,7 @@
   </form>
 
 
-</div>
+
 
  <script>
     $(function() {

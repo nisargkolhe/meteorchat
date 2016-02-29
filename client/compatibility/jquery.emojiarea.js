@@ -231,8 +231,8 @@
 	EmojiArea.prototype.setupButton = function() {
 		var self = this;
 		var $button = $('[data-id=' + this.id + '][data-type=picker]');
-
     $button.on('click', function(e) {
+
       self.emojiMenu.show(self);
 		});
 
@@ -614,6 +614,8 @@
 			self.hide();
 		});
 
+
+
 		$window.on('resize', function() {
 			if (self.visible)
 				self.reposition();
@@ -759,25 +761,33 @@
 				}
 				updateItems();
 			});
-		}0
+		}
 	};
 
 	EmojiMenu.prototype.reposition = function() {
     if (!this.tether) {
-
-      this.tether = new Tether({
+    	/*this.tether = new Tether({
+	        element: '[data-id="' + this.id + '"][data-type="menu"]',
+	        target: '.comments',
+	        attachment: 'bottom left',
+	  		targetAttachment: 'bottom left'
+	      });*/
+      /*this.tether = new Tether({
         element: '[data-id="' + this.id + '"][data-type="menu"]',
         target: '[data-id="' + this.id + '"][data-type="picker"]',
-        attachment: 'bottom right',
-  		targetAttachment: 'top left',
-        offset: '0 12px',
+        element: '[data-type="menu"]',
+        target: '[data-type="picker"]',
+        attachment: 'bottom left',
+  		targetAttachment: 'bottom left',
+        offset: '10px 10px',
         constraints: [
           {
-            to: 'html',
-            pin: true
+            to: 'scrollParent',
+            attachment: 'together',
+            pin: ['bottom']
           }
         ]
-      });
+      });*/
     }
 	};
 
@@ -791,11 +801,12 @@
      * MODIFICATION: Following line was modified by Igor Zhukov, in order to
      * improve EmojiMenu behaviour
      */
+    this.reposition();
     if (this.visible)
       return this.hide();
-    this.reposition();
-		$(this.$menu).css('z-index', ++EmojiMenu.menuZIndex);
+	$(this.$menu).css('z-index', ++EmojiMenu.menuZIndex);
     this.$menu.show("fast");
+    
     /*
      * MODIFICATION: Following 3 lines were added by Igor Zhukov, in order
      * to update EmojiMenu contents
