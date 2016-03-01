@@ -119,41 +119,56 @@
 
 <!-- Top level template for the chat page -->
 <template name="chat_page">
+<div class="ui centered grid fullHeight">
+  <div class="ten wide column fullHeight">
+    <div class="ui comments">
+    	<!--<div class="ui cards">
+    		<div class="card">
+    		    <div class="content">
+    		      <img class="mini ui image" src="/{{other_user.profile.avatar}}">
+    		      <div class="right floated header">
+    		        {{other_user.profile.username}}
+    		      </div>
+    		      <div class="description">
+    		        Type in the box below to send a message
+    		      </div>
+    		    </div>
+    		</div>
+    	</div>  
 
-<div class="ui comments">
-	<div class="ui cards">
-		<div class="card">
-		    <div class="content">
-		      <img class="mini ui image" src="/{{other_user.profile.avatar}}">
-		      <div class="right floated header">
-		        {{other_user.profile.username}}
-		      </div>
-		      <div class="description">
-		        Type in the box below to send a message
-		      </div>
-		    </div>
-		</div>
-	</div>  
+      <h3 class="ui dividing header"></h3>
+      -->
 
-  <h3 class="ui dividing header"></h3>
-  <div class="chatWindow">
-  	{{#each messages}}
-			{{> chat_message}}
-	   {{/each}}
+      <div class="chatWindow container">
+      	{{#each messages}}
+    			{{> chat_message}}
+    	   {{/each}}
+      </div>
+    	<br>
+      </div>
+      <form class="ui reply form js-send-chat">
+
+      	<div class="ui action input" style="width:100%;">
+      	  <input class="input" type="text" name="chat" data-emojiable="true" placeholder="type a message here...">
+      	  <button class="ui blue submit button" type="submit">Send</button>
+    	  </div>
+
+      </form>
   </div>
-	<br>
+  <div class="six wide column">
+    <div class="ui card">
+      <div class="image">
+        <img src="/{{other_user.profile.avatar}}">
+      </div>
+      <div class="content">
+        <a class="header">{{other_user.profile.username}}</a>
+        <div class="meta">
+          <span class="date">Email: {{other_user.emails.address}}</span>
+        </div>
+      </div>
+    </div>
   </div>
-  <form class="ui reply form js-send-chat">
-
-  	<div class="ui action input" style="width:100%;">
-  	  <input class="input" type="text" name="chat" data-emojiable="true" placeholder="type a message here...">
-  	  <button class="ui blue submit button" type="submit">Send</button>
-	  </div>
-
-  </form>
-
-
-
+</div>
 
  <script>
     $(function() {
@@ -173,7 +188,7 @@
 <!-- simple template that displays a message -->
 <template name="chat_message">
 
-<div class="comment">
+<div class="comment" id="{{_id}}">
     <a class="avatar">
       <img src="/{{getAvatar user}}">
     </a>

@@ -20,7 +20,17 @@ body{
 
 .main{
 	height: 90%;
+	/*overflow: scroll;*/
+}
+
+.chatWindow{
+	height: 100%;
+	width: 100%;
 	overflow: scroll;
+}
+
+.fullHeight{
+	height: 100%;
 }
 
 .meteoremoticon{
@@ -39,7 +49,7 @@ body{
 
 .ui.comments{
 	height: 90%;
-	overflow: scroll;
+	overflow: hidden;
 }
 
 [contenteditable="true"].single-line {

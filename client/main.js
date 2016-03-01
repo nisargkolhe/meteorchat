@@ -207,7 +207,9 @@ Template.chat_page.events({
         // (i.e. the user) into the database?? certainly not. 
         // push adds the message to the end of the array8
         var now = moment().format('MMMM Do YYYY, h:mm:ss a');
-        msgs.push({text: event.target.chat.value, user: Meteor.userId(), time: now, read: false});
+        var newId = Random.id();
+        Session.set("msgId", newId);
+        msgs.push({text: event.target.chat.value, user: Meteor.userId(), time: now, read: false, _id: newId});
         // reset the form
         event.target.chat.value = "";
         // put the messages array onto the chat object
@@ -217,16 +219,18 @@ Template.chat_page.events({
         //Chats.update(chat._id, chat);
 
         Meteor.call("updateChat",chat._id,chat);
+        console.log(newId);
+        $('.chatWindow').scrollTop($("#"+newId).offset().top);
       }
     }
   },
   'focus .js-send-chat':function(event){
-      console.log("got focus");
+      //console.log("got focus");
       var chat = Chats.findOne({_id:Session.get("chatId")});
       
       if (chat){// ok - we have a chat to use
         var msgs = chat.messages; // pull the messages property
-        console.log(msgs);
+        //console.log(msgs);
         var otherUserId;
         if(chat.user1Id==Meteor.userId()){
           otherUserId =  chat.user2Id;
@@ -234,7 +238,7 @@ Template.chat_page.events({
         else{
           otherUserId = chat.user1Id;
         }
-        console.log(otherUserId);
+        //console.log(otherUserId);
         if (msgs){// no messages yet, create a new array
           var change = false;
           for(message of msgs){
@@ -248,7 +252,7 @@ Template.chat_page.events({
           if(change){
             // put the messages array onto the chat object
           chat.messages = msgs;
-          console.log(chat.messages);
+          //console.log(chat.messages);
           // update the chat object in the database.
 
           Meteor.call("updateChat",chat._id,chat);
@@ -258,4 +262,13 @@ Template.chat_page.events({
     }
   }  
 
-})
+});
+
+Tracker.afterFlush(function () { 
+    console.log("tracked");
+      if(Session.get("msgId")){
+          var msgId = Session.get("msgId");
+          console.log("tracked msg");
+          $('.chatWindow').scrollTop($(msgId).offset().top); 
+      }
+  });
