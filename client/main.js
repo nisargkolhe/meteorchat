@@ -273,38 +273,42 @@ Template.chat_page.helpers({
 })
 Template.chat_page.events({
 // this event fires when the user sends a message on the chat page
-  'submit .js-send-chat':function(event){
+  'submit .js-send-chat, keyup .emoji-wysiwyg-editor':function(event){
     // stop the form from triggering a page reload
     event.preventDefault();
     // see if we can find a chat object in the database
     // to which we'll add the message
-    if(event.target.chat.value){
-      var chat = Chats.findOne({_id:Session.get("chatId")});
-      if (chat){// ok - we have a chat to use
-        var msgs = chat.messages; // pull the messages property
-        if (!msgs){// no messages yet, create a new array
-          msgs = [];
-        }
-        // is a good idea to insert data straight from the form
-        // (i.e. the user) into the database?? certainly not. 
-        // push adds the message to the end of the array8
-        var now = moment().format('MMMM Do YYYY, h:mm:ss a');
-        var newId = Random.id();
-        Session.set("msgId", newId);
-        msgs.push({text: event.target.chat.value, user: Meteor.userId(), time: moment().format(), read: false, _id: newId});
-        // reset the form
-        event.target.chat.value = "";
-        // put the messages array onto the chat object
-        chat.messages = msgs;
-        // update the chat object in the database.
-        
-        //Chats.update(chat._id, chat);
+    console.log(event.which);
+    var msg = $('.emoji-wysiwyg-editor').text().toString();
+    if(msg){
+      if ((event.type === 'submit') || (event.type === 'keyup' && event.which === 13) ) {
+        var chat = Chats.findOne({_id:Session.get("chatId")});
+        if (chat){// ok - we have a chat to use
+          var msgs = chat.messages; // pull the messages property
+          if (!msgs){// no messages yet, create a new array
+            msgs = [];
+          }
+          // is a good idea to insert data straight from the form
+          // (i.e. the user) into the database?? certainly not. 
+          // push adds the message to the end of the array8
+          var now = moment().format('MMMM Do YYYY, h:mm:ss a');
+          var newId = Random.id();
+          Session.set("msgId", newId);
+          msgs.push({text: msg, user: Meteor.userId(), time: moment().format(), read: false, _id: newId});
+          // reset the form
+          $('.emoji-wysiwyg-editor').text("");
+          // put the messages array onto the chat object
+          chat.messages = msgs;
+          // update the chat object in the database.
+          
+          //Chats.update(chat._id, chat);
 
-        Meteor.call("updateChat",chat._id,chat);
-        console.log(newId);
-        console.log($("#"+newId));
-        //$('.chatWindow').scrollTop($("#"+newId).offset().top);
-        //$('.chatWindow').scrollTop($('.chatWindow')[0].scrollHeight);
+          Meteor.call("updateChat",chat._id,chat);
+          console.log(newId);
+          console.log($("#"+newId));
+          //$('.chatWindow').scrollTop($("#"+newId).offset().top);
+          //$('.chatWindow').scrollTop($('.chatWindow')[0].scrollHeight);
+        }
       }
     }
   },
