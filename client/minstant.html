@@ -9,7 +9,7 @@
 <template name="ApplicationLayout">
 	{{> yield "header"}}
 	
-	<div class="ui container main">
+	<div class="ui container main scroll">
 	{{> yield "main"}}
 	</div>
 </template>
@@ -53,6 +53,104 @@
   <script>$('.dropdown').dropdown();</script>
 </template>
 
+<!--Acounts UI -->
+<template name="login">
+  <div class="ui container">
+    <div class="ui middle aligned center aligned grid">
+      <div class="column loginBox">
+        <h2 class="ui image header">
+          <img src="logo.png" class="ui medium image logoImg">
+          <div class="content">
+            
+          </div>
+        </h2>
+        <form class="ui large form">
+          <div>
+            <div class="field">
+              <button class="ui fluid large facebook button"><i class="white facebook icon"></i> Login with Facebook</button>
+            </div>
+            <div class="field">
+              <div class="ui left icon input">
+                <i class="user icon"></i>
+                <input type="text" name="loginEmail" placeholder="E-mail address">
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui left icon input">
+                <i class="lock icon"></i>
+                <input type="password" name="loginPassword" placeholder="Password">
+              </div>
+            </div>
+            <div class="field">
+            <input type="submit" value="Login" class="ui primary fluid large submit button">
+            </div>
+            <div class="field">
+            <a href="/register"><div class="ui fluid large button">Sign up with Email</div></a>
+            </div>
+          </div>
+
+          <div class="ui error message"></div>
+
+        </form>
+
+
+          
+
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="register">
+  <div class="ui container">
+    <div class="ui middle aligned center aligned grid">
+      <div class="column loginBox">
+        <h2 class="ui image header">
+          <img src="logo.png" class="ui medium image logoImg">
+          <div class="content">
+            
+          </div>
+        </h2>
+        <form class="ui large form">
+          <div>
+            <div class="field">
+              <div class="ui left icon input">
+                <i class="user icon"></i>
+                <input type="text" name="loginEmail" placeholder="E-mail address">
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui left icon input">
+                <i class="user icon"></i>
+                <input type="text" name="loginUsername" placeholder="Username">
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui left icon input">
+                <i class="lock icon"></i>
+                <input type="password" name="loginPassword" placeholder="Password">
+              </div>
+            </div>
+            <div class="field">
+            <input type="submit" value="Register" class="ui primary fluid large submit button">
+            </div>
+            <div class="field">
+            Go back to <a href="/">Log in</a>
+            </div>
+          </div>
+
+          <div class="ui error message"></div>
+
+        </form>
+
+
+          
+
+      </div>
+    </div>
+  </div>
+</template>
+
 <!-- Top level template for the lobby page -->
 <template name="lobby_page">
 	{{> available_user_list}}
@@ -81,7 +179,7 @@
 	{{#if isMyUser _id}} 
   <div class="card">
     <div class="image">
-      <img src="/{{profile.avatar}}">
+      <img src="{{profile.avatar}}">
     </div>
     <div class="content">
       <div class="header">{{getUsername _id}} (YOU)</div>
@@ -97,7 +195,7 @@
           </div>
         </div>
       </div>
-      <img src="/{{profile.avatar}}">
+      <img src="{{profile.avatar}}">
       {{#if getRead}}
       <div class="ui floating circular red big label">{{getRead}}</div>
       {{/if}}
@@ -120,7 +218,7 @@
 <!-- Top level template for the chat page -->
 <template name="chat_page">
 <div class="ui centered grid fullHeight">
-  <div class="ten wide column fullHeight">
+  <div class="sixteen wide tablet eight wide computer column fullHeight">
     <div class="ui comments">
     	<!--<div class="ui cards">
     		<div class="card">
@@ -150,20 +248,22 @@
 
       	<div class="ui action input" style="width:100%;">
       	  <input class="input" type="text" name="chat" data-emojiable="true" placeholder="type a message here...">
-      	  <button class="ui blue submit button" type="submit">Send</button>
+      	  <button class="ui blue submit button" type="submit"><i class="send icon"></i></button>
     	  </div>
 
       </form>
   </div>
-  <div class="six wide column">
-    <div class="ui card">
-      <div class="image">
-        <img src="/{{other_user.profile.avatar}}">
-      </div>
-      <div class="content">
-        <a class="header">{{other_user.profile.username}}</a>
-        <div class="meta">
-          <span class="date">Email: {{other_user.emails.address}}</span>
+  <div class = "computer only row" style="display:none">
+    <div class="six wide column">
+      <div class="ui card">
+        <div class="image">
+          <img src="{{other_user.profile.avatar}}">
+        </div>
+        <div class="content">
+          <a class="header">{{other_user.profile.username}}</a>
+          <div class="meta">
+            <span class="date">Email: {{other_user.emails.address}}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -190,7 +290,7 @@
 
 <div class="comment" id="{{_id}}">
     <a class="avatar">
-      <img src="/{{getAvatar user}}">
+      <img src="{{getAvatar user}}">
     </a>
     <div class="content">
       <a class="author">{{getUsername user}}</a>
@@ -214,6 +314,7 @@
 
     </div>
   </div>
+  <script>$('.chatWindow').scrollTop($('.chatWindow')[0].scrollHeight);</script>
 </template>
 
 

@@ -26,7 +26,8 @@ body{
 .chatWindow{
 	height: 100%;
 	width: 100%;
-	overflow: scroll;
+	overflow-y: scroll;
+	overflow-x: hidden;
 }
 
 .fullHeight{
@@ -50,6 +51,30 @@ body{
 .ui.comments{
 	height: 90%;
 	overflow: hidden;
+}
+
+.scroll{
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
+.loginBox{
+	max-width: 500px;
+}
+
+.logoImg{
+   -webkit-animation: adjustHue 5s alternate infinite;
+}
+
+.fbLogin{
+	color: #fff;
+	background-color: #4267B2;
+}
+
+@-webkit-keyframes adjustHue {
+   0% { -webkit-filter: hue-rotate(30deg); }
+   50% { -webkit-filter: hue-rotate(60deg); }
+   100% { -webkit-filter: hue-rotate(90deg); }   
 }
 
 [contenteditable="true"].single-line {

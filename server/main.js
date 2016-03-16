@@ -10,3 +10,12 @@ Meteor.publish("chats",function(){
 	var chat = Chats.find(filter);
 	return chat;
 });
+
+Accounts.onCreateUser(function(options, user) {
+    if (options.profile && user.services.facebook.id) {
+        options.profile.avatar = "http://graph.facebook.com/" + user.services.facebook.id + "/picture/?type=large";
+        options.profile.username = user.services.facebook.first_name + user.services.facebook.last_name;
+        user.profile = options.profile;
+    }
+    return user;
+});

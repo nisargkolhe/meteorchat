@@ -6,7 +6,29 @@ Router.configure({
 // specify the top level route, the page users see when they arrive at the site
 Router.route('/', function () {
  // console.log("rendering root /");
+ if(Meteor.user()){
+  Router.go('/chats')
+ }
+  //this.render("navbar", {to:"header"});
+  this.render("login", {to:"main"}); 
 
+});
+
+Router.route('/register', function () {
+ // console.log("rendering root /");
+ if(Meteor.user()){
+  Router.go('/chats')
+ }
+  //this.render("navbar", {to:"header"});
+  this.render("register", {to:"main"}); 
+
+});
+
+Router.route('/chats', function () {
+ // console.log("rendering root /");
+  if(!Meteor.user()){
+  Router.go('/')
+ }
   this.render("navbar", {to:"header"});
   this.render("lobby_page", {to:"main"}); 
 
@@ -64,7 +86,7 @@ for (var i=1;i<13;i++){
   avatar_data.push({
     id:i,
     label: i,
-    value: "ava"+i+".jpg"
+    value: "/ava"+i+".jpg"
   });
 }
 Accounts.ui.config({
@@ -100,9 +122,56 @@ Accounts.ui.config({
       ]
 });
 
+
+
 ///
 // helper functions 
 /// 
+Template.login.events({
+    'submit form': function(event){
+        event.preventDefault();
+        var emailVar = event.target.loginEmail.value;
+        var passwordVar = event.target.loginPassword.value;
+        console.log("loging in");
+        Meteor.loginWithPassword(emailVar, passwordVar, function(error){
+            $('.ui.error.message').fadei('fast');
+            $('.ui.error.message').text(error.reason);
+        });
+    },
+    'click .facebook':function(event){
+        event.preventDefault();
+        Meteor.loginWithFacebook(function(error){
+            if(!err) {
+                $('.ui.error.message').fadei('fast');
+            $('.ui.error.message').text(error.reason);
+            }
+        });
+    }
+});
+
+Template.register.events({
+    'submit form': function(event){
+        event.preventDefault();
+        var email = event.target.loginEmail.value;
+        var username = event.target.loginUsername.value;
+        var password = event.target.loginPassword.value;
+        var normalizedEmail = Email.normalize(email);
+        var avatar = Gravatar.imageUrl(normalizedEmail, {
+            size: 250
+        });
+
+        var user = {'email':email,password:password,profile:{username:username, avatar:avatar}};
+        console.log("registering");
+
+        Accounts.createUser(user, function(error){
+            $('.ui.error.message').fadei('fast');
+            $('.ui.error.message').text(error.reason);
+        });
+        
+    }
+});
+
+
 Template.available_user_list.helpers({
   users:function(){
         return Meteor.users.find({},{sort:{"profile.username": 1}});
@@ -174,6 +243,19 @@ Template.chat_message.helpers({
 Template.chat_page.helpers({
   messages:function(){
     var chat = Chats.findOne({_id:Session.get("chatId")});
+    var msgs = chat.messages;
+    if (msgs){
+      var change = false;
+      for(message of msgs){
+        message.time = moment(message.time).calendar(null, {
+          lastDay : '[Yesterday]',
+          sameDay : 'LT',
+          lastWeek : 'dddd',
+          sameElse : 'DD/MM/YY'
+        });
+      }
+      return msgs;   
+    }
     return chat.messages;
   }, 
   other_user:function(){
@@ -209,7 +291,7 @@ Template.chat_page.events({
         var now = moment().format('MMMM Do YYYY, h:mm:ss a');
         var newId = Random.id();
         Session.set("msgId", newId);
-        msgs.push({text: event.target.chat.value, user: Meteor.userId(), time: now, read: false, _id: newId});
+        msgs.push({text: event.target.chat.value, user: Meteor.userId(), time: moment().format(), read: false, _id: newId});
         // reset the form
         event.target.chat.value = "";
         // put the messages array onto the chat object
@@ -220,7 +302,9 @@ Template.chat_page.events({
 
         Meteor.call("updateChat",chat._id,chat);
         console.log(newId);
-        $('.chatWindow').scrollTop($("#"+newId).offset().top);
+        console.log($("#"+newId));
+        //$('.chatWindow').scrollTop($("#"+newId).offset().top);
+        //$('.chatWindow').scrollTop($('.chatWindow')[0].scrollHeight);
       }
     }
   },
