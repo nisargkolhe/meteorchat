@@ -37,7 +37,7 @@ Router.route('/reset', function () {
 Router.route('/chats', function () {
  // console.log("rendering root /");
   if(!Meteor.user()){
-   //Router.go('/')
+   Router.go('/')
  }
   this.render("navbar", {to:"header"});
   this.render("lobby_page", {to:"main"}); 
