@@ -24,10 +24,20 @@ Router.route('/register', function () {
 
 });
 
+Router.route('/reset', function () {
+ // console.log("rendering root /");
+ if(Meteor.user()){
+  Router.go('/chats')
+ }
+  //this.render("navbar", {to:"header"});
+  this.render("passwordRecovery", {to:"main"}); 
+
+});
+
 Router.route('/chats', function () {
  // console.log("rendering root /");
   if(!Meteor.user()){
-  Router.go('/')
+   //Router.go('/')
  }
   this.render("navbar", {to:"header"});
   this.render("lobby_page", {to:"main"}); 
@@ -80,6 +90,10 @@ Router.route('/chat/:_id', function () {
 Meteor.subscribe("chats");
 Meteor.subscribe("users");
 ///Accounts UI Config
+
+if (Accounts._resetPasswordToken) {
+  Session.set('resetPassword', Accounts._resetPasswordToken);
+} 
 
 var avatar_data = [];
 for (var i=1;i<13;i++){
@@ -134,16 +148,16 @@ Template.login.events({
         var passwordVar = event.target.loginPassword.value;
         console.log("loging in");
         Meteor.loginWithPassword(emailVar, passwordVar, function(error){
-            $('.ui.error.message').fadei('fast');
-            $('.ui.error.message').text(error.reason);
+          $('.ui.error.message').text(error.reason);
+          $('.ui.error.message').fadeIn('fast');
         });
     },
     'click .facebook':function(event){
         event.preventDefault();
         Meteor.loginWithFacebook(function(error){
             if(!err) {
-                $('.ui.error.message').fadei('fast');
-            $('.ui.error.message').text(error.reason);
+              $('.ui.error.message').text(error.reason);
+              $('.ui.error.message').fadeIn('fast');
             }
         });
     }
@@ -164,13 +178,41 @@ Template.register.events({
         console.log("registering");
 
         Accounts.createUser(user, function(error){
-            $('.ui.error.message').fadei('fast');
-            $('.ui.error.message').text(error.reason);
+          $('.ui.error.message').text(error.reason);
+          $('.ui.error.message').fadeIn('fast');
+            
         });
         
     }
 });
 
+Template.passwordRecovery.helpers({
+  resetPassword : function(t) {
+    return Session.get('resetPassword');
+  }
+});
+
+Template.passwordRecovery.events({
+  'submit .js-recovery': function(event){
+      event.preventDefault();
+      var email = event.target.recoveryEmail.value;
+      if(email){
+        Session.set('loading', true);
+        Accounts.forgotPassword({email: email}, function(error){
+          if (error) {
+            $('.ui.error.message').text(error.reason);
+            $('.ui.error.message').fadeIn('fast');
+          }
+          else {
+            $('.ui.positive.message').text(error.reason);
+            $('.ui.positive.message').fadeIn('fast');
+          }
+          Session.set('loading', false);
+        });
+      }
+      return false;
+  }
+});
 
 Template.available_user_list.helpers({
   users:function(){

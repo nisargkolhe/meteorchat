@@ -2,6 +2,11 @@
 
 body{
 	overflow: hidden;
+	background-color: #fefefe;
+}
+
+.displayNone{
+	display: none;
 }
 
 .user_avatar{
@@ -69,6 +74,10 @@ body{
 .fbLogin{
 	color: #fff;
 	background-color: #4267B2;
+}
+
+.facebookBtn{
+	margin-bottom: 1em !important; 
 }
 
 @-webkit-keyframes adjustHue {

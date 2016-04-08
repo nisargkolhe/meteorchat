@@ -55,55 +55,100 @@
 
 <!--Acounts UI -->
 <template name="login">
-  <div class="ui container">
-    <div class="ui middle aligned center aligned grid">
-      <div class="column loginBox">
-        <h2 class="ui image header">
-          <img src="logo.png" class="ui medium image logoImg">
-          <div class="content">
-            
-          </div>
-        </h2>
-        <form class="ui large form">
-          <div>
-            <div class="field">
-              <button class="ui fluid large facebook button"><i class="white facebook icon"></i> Login with Facebook</button>
-            </div>
-            <div class="field">
-              <div class="ui left icon input">
-                <i class="user icon"></i>
-                <input type="text" name="loginEmail" placeholder="E-mail address">
-              </div>
-            </div>
-            <div class="field">
-              <div class="ui left icon input">
-                <i class="lock icon"></i>
-                <input type="password" name="loginPassword" placeholder="Password">
-              </div>
-            </div>
-            <div class="field">
-            <input type="submit" value="Login" class="ui primary fluid large submit button">
-            </div>
-            <div class="field">
-            <a href="/register"><div class="ui fluid large button">Sign up with Email</div></a>
-            </div>
-          </div>
-
-          <div class="ui error message"></div>
-
-        </form>
-
-
+  <div class="ui middle aligned center aligned grid">
+    <div class="column loginBox">
+      <h2 class="ui image header">
+        <img src="logo.png" class="ui medium image logoImg">
+        <div class="content">
           
-
+        </div>
+      </h2>
+      <div class="field facebookBtn">
+        <button class="ui fluid large facebook button"><i class="white facebook icon"></i> Login with Facebook</button>
       </div>
+      <form class="ui large form">
+        <div>
+          
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="mail icon"></i>
+              <input type="text" name="loginEmail" placeholder="E-mail address">
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="lock icon"></i>
+              <input type="password" name="loginPassword" placeholder="Password">
+            </div>
+          </div>
+          <div class="field">
+            <input type="submit" value="Login" class="ui primary fluid large submit button">
+          </div>
+          <div class="field">
+          <a href="/register"><div class="ui fluid large button">Sign up with Email</div></a>
+          </div>
+          <div class="field">
+           <a href="/reset">Forgot Password?</a>
+          </div>
+        </div>
+        
+        <div class="ui error message"></div>
+
+      </form>
+
+
+        
+
     </div>
   </div>
 </template>
 
 <template name="register">
-  <div class="ui container">
-    <div class="ui middle aligned center aligned grid">
+  <div class="ui middle aligned center aligned grid">
+    <div class="column loginBox">
+      <h2 class="ui image header">
+        <img src="logo.png" class="ui medium image logoImg">
+        <div class="content">
+          
+        </div>
+      </h2>
+      <form class="ui large form">
+        <div>
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="mail icon"></i>
+              <input type="text" name="loginEmail" placeholder="E-mail address">
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="user icon"></i>
+              <input type="text" name="loginUsername" placeholder="Username">
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="lock icon"></i>
+              <input type="password" name="loginPassword" placeholder="Password">
+            </div>
+          </div>
+          <div class="field">
+          <input type="submit" value="Register" class="ui primary fluid large submit button">
+          </div>
+          <div class="field">
+          Go back to <a href="/">Log in</a>
+          </div>
+        </div>
+
+        <div class="ui error message"></div>
+
+      </form>
+    </div>
+  </div>
+</template>
+
+<template name="passwordRecovery">
+  <div class="ui center aligned grid">
       <div class="column loginBox">
         <h2 class="ui image header">
           <img src="logo.png" class="ui medium image logoImg">
@@ -111,42 +156,47 @@
             
           </div>
         </h2>
-        <form class="ui large form">
+        {{#if resetPassword}}
+        <form class="ui large form js-new-password">
           <div>
             <div class="field">
               <div class="ui left icon input">
-                <i class="user icon"></i>
-                <input type="text" name="loginEmail" placeholder="E-mail address">
-              </div>
-            </div>
-            <div class="field">
-              <div class="ui left icon input">
-                <i class="user icon"></i>
-                <input type="text" name="loginUsername" placeholder="Username">
-              </div>
-            </div>
-            <div class="field">
-              <div class="ui left icon input">
                 <i class="lock icon"></i>
-                <input type="password" name="loginPassword" placeholder="Password">
+                <input type="password" name="new-password" placeholder="Password">
               </div>
             </div>
             <div class="field">
-            <input type="submit" value="Register" class="ui primary fluid large submit button">
+              <input type="submit" value="Change Password" class="ui primary fluid large submit button">
             </div>
             <div class="field">
-            Go back to <a href="/">Log in</a>
+              Go back to <a href="/">Log in</a>
             </div>
           </div>
-
           <div class="ui error message"></div>
-
+        <div class="ui positive message displayNone"></div>
         </form>
+        {{else}}
+        <form class="ui large form js-recovery">
+          <div>
+            <div class="field">
+              <div class="ui left icon input">
+                <i class="mail icon"></i>
+                <input type="text" name="recoveryEmail" placeholder="Email">
+              </div>
+            </div>
+            <div class="field">
+              <input type="submit" value="Send Reset Instructions" class="ui primary fluid large submit button">
+            </div>
+            <div class="field">
+              Go back to <a href="/">Log in</a>
+            </div>
+          </div>
+          <div class="ui error message"></div>
+          <div class="ui positive message displayNone"></div>
+        </form>
+        {{/if}}
 
 
-          
-
-      </div>
     </div>
   </div>
 </template>
