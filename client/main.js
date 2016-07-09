@@ -5,46 +5,37 @@ Router.configure({
 });
 // specify the top level route, the page users see when they arrive at the site
 Router.route('/', function () {
- // console.log("rendering root /");
  if(Meteor.user()){
   Router.go('/chats')
  }
-  //this.render("navbar", {to:"header"});
-  this.render("login", {to:"main"}); 
+  this.render("login"); 
 
 });
 
 Router.route('/register', function () {
- // console.log("rendering root /");
  if(Meteor.user()){
   Router.go('/chats')
  }
-  //this.render("navbar", {to:"header"});
   this.render("register", {to:"main"}); 
-
 });
 
 Router.route('/reset', function () {
- // console.log("rendering root /");
  if(Meteor.user()){
   Router.go('/chats')
  }
-  //this.render("navbar", {to:"header"});
   this.render("passwordRecovery", {to:"main"}); 
-
 });
 
 Router.route('/chats', function () {
- // console.log("rendering root /");
   if(!Meteor.user()){
-   Router.go('/')
+   //Router.go('/')
  }
   this.render("navbar", {to:"header"});
   this.render("lobby_page", {to:"main"}); 
 
 });
 
-// specify a route that allows the current user to chat to another users
+// route for p2p chats
 Router.route('/chat/:_id', function () {
   if(!Meteor.user()){
     this.render("navbar", {to:"header"});
@@ -61,24 +52,22 @@ Router.route('/chat/:_id', function () {
 
   }
   else{
-  // the user they want to chat to has id equal to 
-  // the id sent in after /chat/... 
   var otherUserId = this.params._id;
-  // find a chat that has two users that match current user id
-  // and the requested user id
+
   var filter = {$or:[
               {user1Id:Meteor.userId(), user2Id:otherUserId}, 
               {user2Id:Meteor.userId(), user1Id:otherUserId}
               ]};
   var chat = Chats.findOne(filter);
-  if (!chat){// no chat matching the filter - need to insert a new one
-    //chatId = Chats.insert({user1Id:Meteor.userId(), user2Id:otherUserId});
+  if (!chat){
+      // no chat matching the filter - need to insert a new one
       chatId = Meteor.call("createChat",Meteor.userId(),otherUserId);
   }
-  else {// there is a chat going already - use that. 
+  else {
     chatId = chat._id;
   }
-  if (chatId){// looking good, save the id to the session
+  if (chatId){
+    //save the id to the session
     Session.set("chatId",chatId);
   }
   Meteor.call("updateChat",chatId,chat);
@@ -89,8 +78,9 @@ Router.route('/chat/:_id', function () {
 
 Meteor.subscribe("chats");
 Meteor.subscribe("users");
-///Accounts UI Config
 
+
+///Accounts UI Config
 if (Accounts._resetPasswordToken) {
   Session.set('resetPassword', Accounts._resetPasswordToken);
 } 
@@ -139,7 +129,7 @@ Accounts.ui.config({
 
 
 ///
-// helper functions 
+// helpers and events 
 /// 
 Template.login.events({
     'submit form': function(event){
@@ -316,35 +306,25 @@ Template.chat_page.helpers({
 Template.chat_page.events({
 // this event fires when the user sends a message on the chat page
   'submit .js-send-chat, keyup .emoji-wysiwyg-editor':function(event){
-    // stop the form from triggering a page reload
     event.preventDefault();
-    // see if we can find a chat object in the database
-    // to which we'll add the message
     console.log(event.which);
     var msg = $('.emoji-wysiwyg-editor').text().toString();
     if(msg){
       if ((event.type === 'submit') || (event.type === 'keyup' && event.which === 13) ) {
         var chat = Chats.findOne({_id:Session.get("chatId")});
-        if (chat){// ok - we have a chat to use
-          var msgs = chat.messages; // pull the messages property
+        if (chat){
+          var msgs = chat.messages;
           if (!msgs){// no messages yet, create a new array
             msgs = [];
           }
-          // is a good idea to insert data straight from the form
-          // (i.e. the user) into the database?? certainly not. 
-          // push adds the message to the end of the array8
           var now = moment().format('MMMM Do YYYY, h:mm:ss a');
           var newId = Random.id();
           Session.set("msgId", newId);
           msgs.push({text: msg, user: Meteor.userId(), time: moment().format(), read: false, _id: newId});
           // reset the form
           $('.emoji-wysiwyg-editor').text("");
-          // put the messages array onto the chat object
           chat.messages = msgs;
           // update the chat object in the database.
-          
-          //Chats.update(chat._id, chat);
-
           Meteor.call("updateChat",chat._id,chat);
           console.log(newId);
           console.log($("#"+newId));
@@ -354,13 +334,12 @@ Template.chat_page.events({
       }
     }
   },
+  //got focus
   'focus .js-send-chat':function(event){
-      //console.log("got focus");
       var chat = Chats.findOne({_id:Session.get("chatId")});
       
-      if (chat){// ok - we have a chat to use
-        var msgs = chat.messages; // pull the messages property
-        //console.log(msgs);
+      if (chat){
+        var msgs = chat.messages;
         var otherUserId;
         if(chat.user1Id==Meteor.userId()){
           otherUserId =  chat.user2Id;
@@ -368,8 +347,7 @@ Template.chat_page.events({
         else{
           otherUserId = chat.user1Id;
         }
-        //console.log(otherUserId);
-        if (msgs){// no messages yet, create a new array
+        if (msgs){
           var change = false;
           for(message of msgs){
             if(message.read==false && message.user==otherUserId){
@@ -380,11 +358,7 @@ Template.chat_page.events({
             }  
           }
           if(change){
-            // put the messages array onto the chat object
           chat.messages = msgs;
-          //console.log(chat.messages);
-          // update the chat object in the database.
-
           Meteor.call("updateChat",chat._id,chat);
           }
           
@@ -398,7 +372,7 @@ Tracker.afterFlush(function () {
     console.log("tracked");
       if(Session.get("msgId")){
           var msgId = Session.get("msgId");
-          console.log("tracked msg");
+          //console.log("tracked msg");
           $('.chatWindow').scrollTop($(msgId).offset().top); 
       }
   });

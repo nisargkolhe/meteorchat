@@ -12,7 +12,7 @@ Meteor.publish("chats",function(){
 });
 
 Accounts.onCreateUser(function(options, user) {
-    if (options.profile && user.services.facebook.id) {
+    if (options.profile && user.services.facebook) {
         options.profile.avatar = "http://graph.facebook.com/" + user.services.facebook.id + "/picture/?type=large";
         options.profile.username = user.services.facebook.first_name + user.services.facebook.last_name;
         user.profile = options.profile;

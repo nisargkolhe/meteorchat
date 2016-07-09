@@ -1,4 +1,5 @@
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>MeteorChat</title>
 </head>
 
@@ -22,7 +23,7 @@
         <h2>MeteorChat</h2>
       </a>
       <!--
-      Notification Layout
+      Notification Layout (WIP)
       <div class="ui dropdown item">
         <div class="ui red circular label">22</div>
         <div class="menu ui comments">
@@ -36,7 +37,7 @@
                 <div class="date">2 days ago</div>
               </div>
               <div class="text">
-                Hey guys, I hope this example comment is helping you read this documentation.
+                Hi!
               </div>
             </div>
           </div>
@@ -222,12 +223,12 @@
 
 <!-- display an individual user -->
 <template name="available_user">
+  {{#unless isMyUser _id}} 
 
 <div class="column userCard">
 <div class="ui special cards">
 
-	{{#if isMyUser _id}} 
-  <div class="card">
+  {{!--<div class="card">
     <div class="image">
       <img src="{{profile.avatar}}">
     </div>
@@ -235,7 +236,7 @@
       <div class="header">{{getUsername _id}} (YOU)</div>
     </div>
   </div>
-  {{else}}
+  {{else}} --}}
   <div class="card">
     <div class="blurring dimmable image">
       <div class="ui inverted dimmer">
@@ -254,7 +255,6 @@
       <a class="header" href="/chat/{{_id}}">{{getUsername _id}}</a>
     </div>
   </div>
-  {{/if}}
   <script>
   	$('.special.cards .image').dimmer({
         on: 'hover'
@@ -262,6 +262,8 @@
   </script>
 </div>
 	</div>
+    {{/unless}}
+
 </template>
 
 
@@ -328,8 +330,6 @@
         popupButtonClasses: 'fa fa-smile-o'
       });
       // Finds all elements with `emojiable_selector` and converts them to rich emoji input fields
-      // You may want to delay this step if you have dynamically created input fields that appear later in the loading process
-      // It can be called as many times as necessary; previously converted input fields will not be converted again
       window.emojiPicker.discover();
     });
   </script>
