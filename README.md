@@ -17,7 +17,6 @@ It started of as a chatroom app for the capstone project for a Meteor course. Bu
 MeteorChat uses a number of open source projects to work properly:
 
 * [Meteor](https://github.com/meteor/meteor) -the JavaScript App Platform
-* [Ace Editor] - awesome web-based text editor
 * [Semantic UI](https://github.com/Semantic-Org/Semantic-UI) - great UI boilerplate for modern web apps
 * [Iron Router](https://github.com/iron-meteor/iron-router) - A client and server side router designed specifically for Meteor
 * [Font Awesome](https://github.com/FortAwesome/Font-Awesome) - the iconic font and CSS toolkit
@@ -42,6 +41,7 @@ Follow Meteor's documentation for deployment on Android or iOS.
 ### Todos
  - Add screenshots, forreal
  - Deploy it somewhere for demo
+ - Add functionality for group chats
  - Make users private and searchable via username
  - Rework the UI
  - Make the chats encrypted
